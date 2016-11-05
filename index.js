@@ -11,8 +11,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('port', process.env.PORT || 3001);
-app.locals.title = 'Quizzer'
-app.locals.scores = {}
+app.locals.title = 'Quizzer';
+app.locals.scores = {};
 
 app.locals.quizzes = [{
   title: 'What JavaScript Error Are You?',
@@ -126,10 +126,10 @@ app.post('/quizzes/:quizId/questions', (request, response) => {
   question.id = question.id || Date.now();
 
   const quiz = app.locals.quizzes.find(q => q.id == quizId);
-  if (quiz) { 
+  if (quiz) {
     quiz.questions.push(question);
     return response.send({ quiz });
-  } else { 
+  } else {
     return response
       .status(404)
       .send({ error: `Quiz with an id of ${quizId} not found.` });
