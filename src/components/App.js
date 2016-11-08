@@ -29,7 +29,6 @@ class App extends Component {
   }
 
   render() {
-    // let quiz = jsonResult.forEach((question) => { <h3>{quiz.question.title}</h3> })
     return (
       <div className="App">
         {this.state.quizzes.map(quiz => { return (
