@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Questions from './Questions';
+import Question from './Question';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
@@ -28,12 +28,27 @@ class App extends Component {
 
   render() {
     const { quiz } = this.state;
-    return (
-      <div className="App">
-        <h1>{quiz.title}</h1>
-        <Questions questions={quiz.questions} />
-      </div>
-    );
+    if (quiz.questions) {
+      return (
+        <div className="App">
+          <h1>{quiz.title}</h1>
+          {quiz.questions.map(question => { return (
+            <Question
+            title={question.title}
+            answers={question.answers}
+            id={question.id}
+            />
+            )}
+          )}
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <p>Loading quiz</p>
+        </div>
+      )
+    }
   }
 }
 
