@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Questions from './Questions';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
@@ -6,8 +7,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-        quizzes: [],
-        questions: [],
+        quiz: {}
     };
   }
 
@@ -16,38 +16,22 @@ class App extends Component {
   }
 
   retrieveQuestions() {
-    const questionsUrl = () => `http://localhost:3001/quizzes`;
-    return fetch(questionsUrl())
+    const quizUrl = () => `http://localhost:3001/quizzes/1`;
+    return fetch(quizUrl())
     .then(result => result.json())
     .then(result => {this.setState({
-      quizzes: result.quizzes,
-      questions: result.quizzes[0].questions,
+      quiz: result.quiz,
     });
-      console.log(result);
     })
     .catch(error => console.log(error));
   }
 
   render() {
+    const { quiz } = this.state;
     return (
       <div className="App">
-        {this.state.quizzes.map(quiz => { return (
-            <div key={quiz.id}>
-              <h1>{quiz.title}</h1>
-            </div>
-          )}
-        )}
-        {this.state.questions.map(question => { return (
-          <div key={question.id}>
-            <h3>{question.title}</h3>
-            {question.answers.map((question, key) => { return (
-              <ul key={key}>
-                <li>{question.title}</li>
-              </ul>
-            )})}
-          </div>
-          )}
-        )}
+        <h1>{quiz.title}</h1>
+        <Questions questions={quiz.questions} />
       </div>
     );
   }
