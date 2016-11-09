@@ -1,0 +1,55 @@
+import React, { Component } from 'react';
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+
+// const emptyAnswer = { title: '', score: -1 };
+// const emptyQuestion = { title: '', answers: [emptyAnswer], id: 1 };
+// const emptyQuiz = { title: '', questions: [emptyQuestion] };
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      quiz: null
+    };
+  }
+
+  componentDidMount() {
+    this.retrieveQuestions();
+  }
+
+  retrieveQuestions() {
+    const questionsUrl = () => `http://localhost:3001/quizzes/1`;
+    return fetch(questionsUrl())
+    .then(result => result.json())
+    .then(data => this.setState({ quiz: data }))
+    .catch(error => console.log(error));
+  }
+
+  render() {
+    const { quiz } = this.state;
+    console.log(quiz);
+    if (quiz.title) {
+      return (
+        <div className="App">
+          <h1>{quiz.title}</h1>
+          {/* <h2>{quizzes[0].questions[0].title}</h2>
+          <ul>
+            <li>{quizzes[0].questions[0].answers[0].title}</li>
+            <li>{quizzes[0].questions[0].answers[1].title}</li>
+          </ul> */}
+          {/* <h2>{quizzes[0].questions[1].title}</h2> */}
+          {/* <ul>
+            <li>{quizzes[0].questions[0].answers[0].title}</li>
+          </ul> */}
+        </div>
+      );
+    } else {
+      return (
+        <div className="App"></div>
+      )
+    }
+  }
+}
+
+export default App;
